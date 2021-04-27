@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Coding Quiz</title>
+</head>
+<body>
+    <header>
+        <span id="highScoreButton">View Highscores</span>
+        <span id="score">Score: 0</span>
+        <span id="timer">Timer: 0</span>
+    </header>
+    <main>
+        <section class="box">
+            <h1 id="topText">Coding Challenge Quiz</h1>     
+        </section>
+        <section class="box">
+            <h2 id="startText" class="hideOnStart">Answer these code-related questions before the timer runs out to try and earn a high score! Incorrect answers will penalize your time by 10 seconds!</h2>
+            <button id="startButton" class="hideOnStart">Start Quiz</button>
+            <h2 class= "displayOnStart" id="question">What is the answer to this question?</h2>
+            <div class="buttonWrapper displayOnStart">
+                <button class="choice">A. Option</button>
+            </div>
+            <div class="buttonWrapper displayOnStart">
+                <button class="choice">B. Option</button>
+            </div>
+            <div class="buttonWrapper displayOnStart">
+                <button class="choice">C. Option</button>
+            </div>
+            <div class="buttonWrapper displayOnStart">
+                <button class="choice">D. Option</button>
+            </div>
+            <h3 id="endText" class="displayOnEnd">Game Over!</h3>
+            <input type="text" placeholder="Initials here" name="score-text" id="score-text" class="displayOnEnd" />
+            <button class="displayOnEnd" id="submit">Submit Score</button>
+            <button class="displayOnEnd" id="restart">Restart</button>
+        </section>
+    </main>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
