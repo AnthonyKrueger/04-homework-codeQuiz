@@ -15,6 +15,19 @@
         <span id="timer">Timer: 0</span>
     </header>
     <main>
+        <div class="popup" id="myPopup">
+            <div id='popupText'>
+                <span>High Scores</span>
+            </div>
+            <div class="popupContent">
+                <ul class="scoreList">
+                    <li>Score 1</li>
+                </ul>
+            </div>
+            <div class ="closeDiv">
+                <span class="close">Close</span>
+            </div>
+        </div>
         <section class="box">
             <h1 id="topText">Coding Challenge Quiz</h1>     
         </section>
@@ -35,7 +48,7 @@
                 <button class="choice">D. Option</button>
             </div>
             <h3 id="endText" class="displayOnEnd">Game Over!</h3>
-            <input type="text" placeholder="Initials here" name="score-text" id="score-text" class="displayOnEnd" />
+            <input type="text" placeholder="Name here" name="score-text" id="score-text" class="displayOnEnd" />
             <button class="displayOnEnd" id="submit">Submit Score</button>
             <button class="displayOnEnd" id="restart">Restart</button>
         </section>

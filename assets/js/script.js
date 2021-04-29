@@ -7,13 +7,14 @@ var choiceButtons = document.querySelectorAll(".choice");
 var startButton = document.querySelector("#startButton");
 var restartButton = document.querySelector("#restart");
 var submitButton = document.querySelector("#submit");
+var closeHighScores = document.querySelector(".close")
 var timerEl = document.querySelector("#timer");
 var highScoreButton = document.querySelector("#highScoreButton");
 var questionText = document.querySelector("#question");
 var scoreText = document.querySelector("#score");
 var nameInput = document.querySelector("#score-text");
-var scorePopup = document.querySelectorAll(".scoreText");
-var scoreList = document.querySelector("#popupList");
+var popup = document.querySelector('#myPopup');
+var popupScoreList = document.querySelector('.scoreList')
 
 //Make variables for score, timer, answers, choices and questions #
 var countDown = 60;
@@ -22,14 +23,16 @@ var questionCount = 0;
 var questions = [
     "Commonly used data types DO NOT include:",
     "Arrays in JavaScript can be used to store _____.",
-    "A very useful tool used during development and debugging for printing content to the debugger is:"
+    "A very useful tool used during development and debugging for printing content to the debugger is:",
+    "Which of the following is NOT a javascript library?"
 ]
 var choices = [
     ["strings", "booleans", "alerts", "numbers"],
     ["numbers and strings", "other arrays", "booleans", "all of the above"],
-    ["javascript", "terminal/bash", "for loops", "console log"]
+    ["javascript", "terminal/bash", "for loops", "console log"],
+    ["CSS", "React", "jQuery", "Bootstrap"]
 ]
-var answers = [2, 3, 3]
+var answers = [2, 3, 3, 0]
 
 //Make function for countdown timer
 
@@ -87,6 +90,8 @@ function gameOver() {
     for (i = 0; i < showOnEnd.length; i++) {
         showOnEnd[i].setAttribute("style", "display:block");
     }
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit"
 }
 
 // Make function to push score info
@@ -96,21 +101,52 @@ function pushScore() {
         name: nameInput.value.trim(),
         score: score
     }
-    var scoreList = JSON.parse(localStorage.getItem("highScores"))
-    if(scoreList === null){
-        scoreList = [];
+
+    // Saves only the 10 highest scores, in order, to local storage
+
+    var unparsedScoreList = localStorage.getItem("highScores")
+    if(unparsedScoreList === ''){
+        var scoreList = [];
         scoreList.push(scoreInfo);
         localStorage.setItem("highScores", JSON.stringify(scoreList))
     }
     else {
+        var scoreList = JSON.parse(localStorage.getItem("highScores"))
         scoreList.push(scoreInfo);
-        localStorage.setItem("highScores", JSON.stringify(scoreList))
+        var newScoreList = [];
+        scoreList.sort((a, b) => (a.score < b.score) ? 1 : -1)
+        for(i = 0; i < scoreList.length; i++){
+            newScoreList[i] = scoreList[i];
+        }
+        localStorage.setItem("highScores", JSON.stringify(newScoreList))
     }
+    submitButton.disabled = true;
+    submitButton.textContent = "Score Submitted!";
+    nameInput.value = '';
 }
 
-// Function to populate highscore list
+// Function to show and populate highscore list
 
-
+function populateScore() {
+    popupScoreList.innerHTML = '';
+    var unparsedHighScoreList = localStorage.getItem('highScores');
+    if(unparsedHighScoreList === '') {
+        var message = document.createElement("LI");
+        message.textContent = 'No scores have been submitted yet!'
+        popupScoreList.appendChild(message)
+    }
+    else {
+        var highScoreList = JSON.parse(localStorage.getItem('highScores'));
+        for(i = 0; i < highScoreList.length; i++){
+            var scoreItem = document.createElement("LI");
+            var scoreChoice = highScoreList[i]
+            var scoreCount = i + 1
+            scoreItem.textContent = scoreCount + ". " + scoreChoice.name + " Score: " + scoreChoice.score;
+            popupScoreList.appendChild(scoreItem);
+    }
+    }
+    popup.setAttribute('style', 'visibility: visible');
+}
 
 // Function to run on start of page
 
@@ -162,8 +198,12 @@ function init() {
     });
     highScoreButton.addEventListener("click", function (event) {
         populateScore();
-
     });
+    closeHighScores.addEventListener("click", function (event) {
+        popup.setAttribute('style', 'visibility: hidden');
+    });
+    submitButton.disabled = false;
+    localStorage.setItem('highScores', '')
 }
 
 init();

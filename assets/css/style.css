@@ -62,6 +62,11 @@ button {
     margin: 3em 7em;
     color: white;
 }
+#endText {
+    margin: 1em 3em;
+    color: white;
+    font-size: 2em;
+}
 #startButton {
     background-color: var(--deepbeige);
     color: white;
@@ -72,7 +77,71 @@ button {
     color: white;
     margin-top: 2em;
 }
-.scorePopup {
+.displayOnStart {
+    display:none;
+}
+.buttonWrapper {
+    width: 100%;
+    margin: 2em;
+}
+.displayOnEnd {
+    display: none;
+    margin: 1em auto;
+}
+.popup {
+    position: fixed;
+    z-index: 1;
+    margin: 2% auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    background-color: var(--deepteal);
+    border: 10px solid var(--deepbeige);
+    border-radius: 3px;
+    visibility: hidden;
+    box-shadow: 3px 5px;
+    overflow: hidden;
+}
+#popupText {
+    margin: 0.75em 2em; 
+    font-size: 2.5em;
+
+    color: white;
+    border: 5px solid var(--deepbeige);
+    background-color: var(--teal);
+}
+.scoreList {
+    margin: 1em 2em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 20px;
+    line-height: 2em;
+}
+
+@media screen and (max-width: 576px) {
+    #timer {
+        margin-left: 10%;
+        text-decoration: none;
+    }
+    #score {
+        margin-left: 10%;
+        text-decoration: none;
+    }
+    #startText {
+        margin: 3em 4em;
+        color: white;
+    }
+    #popupText {
+        margin: 0.75em 1.5em; 
+        font-size: 2em;
+    }
+}
+
+
+/* .scorePopup {
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -93,15 +162,4 @@ button {
 }
 .scorePopup .show {
     visibility: visible;
-}
-.displayOnStart {
-    display:none;
-}
-.buttonWrapper {
-    width: 100%;
-    margin: 2em;
-}
-.displayOnEnd {
-    display: none;
-    margin: 1em auto;
-}
+} */
