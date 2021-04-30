@@ -77,6 +77,13 @@ button {
     color: white;
     margin-top: 2em;
 }
+.closeDiv {
+    margin: 2px 7em;
+    padding: 2px 0;
+    color: white;
+    border: 3px solid var(--deepbeige);
+    background-color: var(--teal);
+}
 .displayOnStart {
     display:none;
 }

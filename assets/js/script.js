@@ -7,7 +7,7 @@ var choiceButtons = document.querySelectorAll(".choice");
 var startButton = document.querySelector("#startButton");
 var restartButton = document.querySelector("#restart");
 var submitButton = document.querySelector("#submit");
-var closeHighScores = document.querySelector(".close")
+var closeHighScores = document.querySelector(".closeDiv")
 var timerEl = document.querySelector("#timer");
 var highScoreButton = document.querySelector("#highScoreButton");
 var questionText = document.querySelector("#question");
@@ -116,7 +116,9 @@ function pushScore() {
         var newScoreList = [];
         scoreList.sort((a, b) => (a.score < b.score) ? 1 : -1)
         for(i = 0; i < scoreList.length; i++){
-            newScoreList[i] = scoreList[i];
+            if(i < 10){
+                newScoreList[i] = scoreList[i];
+            }
         }
         localStorage.setItem("highScores", JSON.stringify(newScoreList))
     }
@@ -203,7 +205,6 @@ function init() {
         popup.setAttribute('style', 'visibility: hidden');
     });
     submitButton.disabled = false;
-    localStorage.setItem('highScores', '')
 }
 
 init();
