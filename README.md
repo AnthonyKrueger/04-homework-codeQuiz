@@ -7,3 +7,5 @@ The top ten highscores are saved in localStorage and will be displayed when you 
 Players lose time and 5 points for every wrong answer they provide.
 
 Only the top 10 scores are saved to the server to prevent useless data build up.
+
+Questions appear in random order ad the order of the answer choices is also randomized to ensure that the order of things can't be memorized.

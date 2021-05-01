@@ -18,21 +18,30 @@ var popupScoreList = document.querySelector('.scoreList')
 
 //Make variables for score, timer, answers, choices and questions #
 var countDown = 60;
+var buttonList = [];
+var answerChosen = false
 var score = 0;
+var askedQuestions = [];
 var questionCount = 0;
 var questions = [
     "Commonly used data types DO NOT include:",
     "Arrays in JavaScript can be used to store _____.",
     "A very useful tool used during development and debugging for printing content to the debugger is:",
-    "Which of the following is NOT a javascript library?"
+    "Which of the following is NOT a javascript library?",
+    "What keyboard command is used to copy selected text?",
+    "To add a list item to a list element on a page you would use which method?",
+    "To make a button run a function when clicked, you add a/an __________ in javascript.",
 ]
 var choices = [
     ["strings", "booleans", "alerts", "numbers"],
     ["numbers and strings", "other arrays", "booleans", "all of the above"],
     ["javascript", "terminal/bash", "for loops", "console log"],
-    ["CSS", "React", "jQuery", "Bootstrap"]
+    ["CSS", "React", "jQuery", "Bootstrap"],
+    ["Ctrl+V", "Ctrl+C", "Alt+V", "Alt+C"],
+    [".append()", ".pop()", ".splice()", ".push()"],
+    ["method", "event listener", "variable", "style"]
 ]
-var answers = [2, 3, 3, 0]
+var answers = ["alerts", "all of the above", "console log", "CSS", "Ctrl+C", ".append()", "event listener"]
 
 //Make function for countdown timer
 
@@ -54,6 +63,8 @@ function startTimer() {
 
 function startGame() {
     score = 0;
+    answerChosen = false;
+    askedQuestions = [];
     for (i = 0; i < showOnStart.length; i++) {
         showOnStart[i].setAttribute("style", "display:block");
     }
@@ -63,19 +74,48 @@ function startGame() {
     for (i = 0; i < showOnEnd.length; i++) {
         showOnEnd[i].setAttribute("style", "display:none");
     }
-    questionCount = 0;
+    questionCount = chooseQuestion();
     startTimer();
     refreshDisplay();
 }
 
+//Function to iterate through random numbers 0-3 till it finds a question that hasnt been asked yet
+
+function chooseQuestion() {
+    while(answerChosen == false) {
+        var count = Math.floor(Math.random() * questions.length)
+        if(askedQuestions.includes(count) == false) {
+            askedQuestions.push(count)
+            answerChosen = true;
+            return count;
+        }
+    }
+}
+
+// Function to make choices appear in random order
+
+function chooseButton() {
+    var buttonChosen = false;
+
+    while(buttonChosen == false) {
+        var buttonCount = Math.floor(Math.random() * 4)
+        if(buttonList.includes(buttonCount) == false) {
+            buttonList.push(buttonCount)
+            buttonChosen = true;
+            return buttonCount;
+        }
+    }
+}
 
 //Make function to display current question and choices
 
 function refreshDisplay() {
     questionText.textContent = questions[questionCount]
+    buttonList = [];
     for (i = 0; i < choices[questionCount].length; i++) {
+        var choiceButton = chooseButton();
         var buttonText = choiceButtons[i]
-        buttonText.textContent = (i + 1) + ". " + choices[questionCount][i]
+        buttonText.textContent = (i + 1) + ". " + choices[questionCount][choiceButton]
     }
     scoreText.textContent = "Score: " + score;
 }
@@ -97,34 +137,40 @@ function gameOver() {
 // Make function to push score info
 
 function pushScore() {
-    var scoreInfo = {
-        name: nameInput.value.trim(),
-        score: score
-    }
-
-    // Saves only the 10 highest scores, in order, to local storage
-
-    var unparsedScoreList = localStorage.getItem("highScores")
-    if(unparsedScoreList === ''){
-        var scoreList = [];
-        scoreList.push(scoreInfo);
-        localStorage.setItem("highScores", JSON.stringify(scoreList))
+    var nameLength = nameInput.value.trim().length;
+    if ( nameLength <= 8 && nameLength >= 3){
+        var scoreInfo = {
+            name: nameInput.value.trim(),
+            score: score
+        }
+    
+        // Saves only the 10 highest scores, in order, to local storage
+    
+        var unparsedScoreList = localStorage.getItem("highScores")
+        if(unparsedScoreList === ''){
+            var scoreList = [];
+            scoreList.push(scoreInfo);
+            localStorage.setItem("highScores", JSON.stringify(scoreList))
+        }
+        else {
+            var scoreList = JSON.parse(localStorage.getItem("highScores"))
+            scoreList.push(scoreInfo);
+            var newScoreList = [];
+            scoreList.sort((a, b) => (a.score < b.score) ? 1 : -1)
+            for(i = 0; i < scoreList.length; i++){
+                if(i < 10){
+                    newScoreList[i] = scoreList[i];
+                }
+            }
+            localStorage.setItem("highScores", JSON.stringify(newScoreList))
+        }
+        submitButton.disabled = true;
+        submitButton.textContent = "Score Submitted!";
+        nameInput.value = '';
     }
     else {
-        var scoreList = JSON.parse(localStorage.getItem("highScores"))
-        scoreList.push(scoreInfo);
-        var newScoreList = [];
-        scoreList.sort((a, b) => (a.score < b.score) ? 1 : -1)
-        for(i = 0; i < scoreList.length; i++){
-            if(i < 10){
-                newScoreList[i] = scoreList[i];
-            }
-        }
-        localStorage.setItem("highScores", JSON.stringify(newScoreList))
+        alert("Name must be between 3 and 8 characters!")
     }
-    submitButton.disabled = true;
-    submitButton.textContent = "Score Submitted!";
-    nameInput.value = '';
 }
 
 // Function to show and populate highscore list
@@ -160,16 +206,17 @@ function init() {
     for (i = 0; i < choiceButtons.length; i++) {
         choiceButtons[i].addEventListener("click", function (event) {
             var choice = event.target
-            var choiceNumber = 0
+            var choiceText = ''
             for (i = 0; i < choiceButtons.length; i++) {
                 if (choice === choiceButtons[i]) {
-                    choiceNumber = i;
+                    choiceText = choiceButtons[i].textContent;
                 }
             }
-            if (choiceNumber === answers[questionCount]) {
+            if (choiceText.substring(3) === answers[questionCount]) {
                 score = score + 10;
-                if (questionCount < questions.length - 1) {
-                    questionCount++;
+                if (askedQuestions.length < questions.length) {
+                    answerChosen = false;
+                    questionCount = chooseQuestion();
                     refreshDisplay();
                 }
                 else {
@@ -208,27 +255,3 @@ function init() {
 }
 
 init();
-
-// function populateScore() {
-//     var scoreLength = document.getElementById("popupList").getElementsByTagName("li").length;
-//     if(scoreLength > 0){
-//         for(i = 0; i < scoreLength; i++){
-//             scoreList.removeChild(scoreList.childNodes[i])
-//         }
-//     }
-//     var scorez = JSON.parse(localStorage.getItem("highScores"));
-//     for(i = 1; i < 10 ; i++){
-//         if(i < scorez.length){
-//             var listItem = document.createElement("LI")
-//             listItem.classList.add("scoreText")
-//             var scoreToPush = scorez[i]
-//             listItem.textContent = [i] + ". " + scoreToPush.name + "   Score: " + scoreToPush.score
-//             scoreList.appendChild(listItem);
-
-//         }
-//     }
-//     var allText = document.querySelectorAll(".scoreText")
-//     for(i = 0; i < allText.length; i++){
-//             allText[i].classList.toggle("show");
-//     }
-// }

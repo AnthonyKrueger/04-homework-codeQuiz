@@ -37,6 +37,15 @@ button {
     font-size: 20px;
     font-family: 'Roboto', sans-serif;
 }
+#submit {
+    cursor:pointer;
+}
+#restart {
+    cursor:pointer;
+}
+.choice {
+    cursor:pointer;
+}
 .box {
     width: 100%;
     padding: 1em;
@@ -75,11 +84,15 @@ button {
     color: white;
     padding: 10px 50px;
     font-size: 30px;
+    cursor:pointer;
 }
 #question {
     color: white;
     margin-top: 2em;
     font-family: 'Roboto', sans-serif;
+}
+#highScoreButton {
+    cursor: pointer;
 }
 .closeDiv {
     margin: 2px 7em;
@@ -87,6 +100,7 @@ button {
     color: white;
     border: 3px solid var(--deepbeige);
     background-color: var(--teal);
+    cursor: pointer;
 }
 .displayOnStart {
     display:none;
