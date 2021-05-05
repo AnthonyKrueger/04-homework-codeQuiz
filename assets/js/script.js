@@ -205,9 +205,9 @@ function init() {
 
     var testHighScores = localStorage.getItem('highScores')
     if(testHighScores = null){
-        localStorage.setItem('highScores', '')
+        localStorage.setItem('highScores', [])
     }
-    
+
     for (i = 0; i < choiceButtons.length; i++) {
         choiceButtons[i].addEventListener("click", function (event) {
             var choice = event.target
