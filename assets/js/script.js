@@ -203,6 +203,11 @@ function init() {
     //Use a for loop to add an event listener to each button, checking
     //if it is the right answer on click
 
+    var testHighScores = localStorage.getItem('highScores')
+    if(testHighScores = null){
+        localStorage.setItem('highScores', '')
+    }
+    
     for (i = 0; i < choiceButtons.length; i++) {
         choiceButtons[i].addEventListener("click", function (event) {
             var choice = event.target
