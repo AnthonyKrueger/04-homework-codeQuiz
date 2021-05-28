@@ -204,7 +204,7 @@ function init() {
     //if it is the right answer on click
 
     var testHighScores = localStorage.getItem('highScores')
-    if(testHighScores = null){
+    if(testHighScores === null){
         localStorage.setItem('highScores', [])
     }
 
