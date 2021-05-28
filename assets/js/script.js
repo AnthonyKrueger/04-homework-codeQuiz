@@ -147,7 +147,7 @@ function pushScore() {
         // Saves only the 10 highest scores, in order, to local storage
     
         var unparsedScoreList = localStorage.getItem("highScores")
-        if(unparsedScoreList === ''){
+        if(unparsedScoreList === null){
             var scoreList = [];
             scoreList.push(scoreInfo);
             localStorage.setItem("highScores", JSON.stringify(scoreList))
@@ -178,7 +178,7 @@ function pushScore() {
 function populateScore() {
     popupScoreList.innerHTML = '';
     var unparsedHighScoreList = localStorage.getItem('highScores');
-    if(unparsedHighScoreList === '') {
+    if(unparsedHighScoreList === null) {
         var message = document.createElement("LI");
         message.textContent = 'No scores have been submitted yet!'
         popupScoreList.appendChild(message)
