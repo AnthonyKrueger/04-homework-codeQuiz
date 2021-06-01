@@ -178,13 +178,14 @@ function pushScore() {
 function populateScore() {
     popupScoreList.innerHTML = '';
     var unparsedHighScoreList = localStorage.getItem('highScores');
-    if(unparsedHighScoreList === null) {
+    console.log(unparsedHighScoreList)
+    if(unparsedHighScoreList === null || unparsedHighScoreList === '') {
         var message = document.createElement("LI");
         message.textContent = 'No scores have been submitted yet!'
         popupScoreList.appendChild(message)
     }
     else {
-        var highScoreList = JSON.parse(localStorage.getItem('highScores'));
+        var highScoreList = JSON.parse(unparsedHighScoreList);
         for(i = 0; i < highScoreList.length; i++){
             var scoreItem = document.createElement("LI");
             var scoreChoice = highScoreList[i]
